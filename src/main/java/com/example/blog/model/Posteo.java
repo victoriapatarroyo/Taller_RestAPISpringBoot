@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,8 +24,8 @@ public class Posteo {
 	
 	
 	@OneToMany(mappedBy = "posteoAsociado", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonBackReference
-	private List<Comentario> comentarios;
+	//@JsonBackReference
+	private List<Comentario> comentarios = new ArrayList<>();
 
     public Posteo() {
     }

@@ -55,9 +55,6 @@ public class PostController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post no encontrado con el id: " + id);
         }
-
-        //postService.borrarPost(id);
-        //return ResponseEntity.ok("Post eliminado con éxito");
     }
 
     @PutMapping("/editar/{id}")

@@ -1,6 +1,7 @@
 package com.example.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.w3c.dom.Text;
 
@@ -17,14 +18,14 @@ public class Comentario {
 	
 	@ManyToOne
 	@JoinColumn(name="idPosteo")
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonIgnore
 	private Posteo posteoAsociado;
 	
 	public Comentario() {
 	}
 	
-	public Comentario(Long idComentario, String textoComentario, Date fechaCreado) {
-		this.idComentario = idComentario;
+	public Comentario(String textoComentario, Date fechaCreado) {
 		this.textoComentario = textoComentario;
 		this.fechaCreado = fechaCreado;
 	}

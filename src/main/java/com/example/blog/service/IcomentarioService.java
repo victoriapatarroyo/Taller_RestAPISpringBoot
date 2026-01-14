@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IcomentarioService {
-	List<Comentario> obtenerTodosComnetarios();
+	List<Comentario> obtenerTodosComentarios();
 	Optional<Comentario> obtenerComentarioPorId(Long id);
-	void guardarComentario(Comentario comnetario);
+	Comentario guardarComentario(Comentario comentario);
+	//void guardarComentario(Comentario comentario);
 	
 	//Metodo para eliminar un comentario
 	void borrarComentario(Long id);
 	
 	//Metodo para editar un comentario
-	void editarComentario(Long id, Comentario comnetarioActualizado);
+	Comentario editarComentario(Long id, Comentario comnetarioActualizado);
+	
+	List<Comentario> obtnerComentarioPorPosteo(Long idPosteo);
 }

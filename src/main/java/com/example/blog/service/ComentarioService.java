@@ -3,10 +3,12 @@ package com.example.blog.service;
 import com.example.blog.model.Comentario;
 import com.example.blog.repository.IcomentarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ComentarioService implements IcomentarioService{
 	private final IcomentarioRepository comentarioRepository;
 	
@@ -15,8 +17,8 @@ public class ComentarioService implements IcomentarioService{
 		this.comentarioRepository = comentarioRepository;
 	}
 	
-		@Override
-	public List<Comentario> obtenerTodosComnetarios() {
+	@Override
+	public List<Comentario> obtenerTodosComentarios() {
 		return comentarioRepository.findAll();
 	}
 	
@@ -26,8 +28,8 @@ public class ComentarioService implements IcomentarioService{
 	}
 	
 	@Override
-	public void guardarComentario(Comentario comentario) {
-		comentarioRepository.save(comentario);
+	public Comentario guardarComentario(Comentario comentario) {
+		return comentarioRepository.save(comentario);
 	}
 	
 	@Override
@@ -36,19 +38,16 @@ public class ComentarioService implements IcomentarioService{
 	}
 	
 	@Override
-	public void editarComentario(Long id, Comentario comnetarioActualizado) {
-		//Saber si exsite
-		Comentario comentarioExiste = comentarioRepository.findById(id).orElse(null);
+	public Comentario editarComentario(Long id, Comentario comentarioActualizado) {
+		Comentario comentarioExistente = comentarioRepository.findById(id)
+				                                 .orElseThrow(() -> new RuntimeException("Comentario no encontrado con id: " + id));
 		
-		if (comentarioExiste != null){
-			//Actualizar los campos de comentario existente
-			comentarioExiste.setTextoComentario(comnetarioActualizado.getTextoComentario());
-			
-			// Guardo comentario actualizado
-			comentarioRepository.save(comentarioExiste);
-		} else {
-			throw new RuntimeException("Comentario no encontrado con el id: " + id);
-		}
-		
+		comentarioExistente.setTextoComentario((comentarioActualizado.getTextoComentario()));
+		return comentarioRepository.save(comentarioExistente);
+	}
+	
+	@Override
+	public List<Comentario> obtnerComentarioPorPosteo(Long idPosteo) {
+		return comentarioRepository.findByPosteoAsociado_IdPosteo(idPosteo);
 	}
 }
