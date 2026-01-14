@@ -3,8 +3,10 @@ package com.example.blog.service;
 import com.example.blog.model.Autor;
 import com.example.blog.model.Posteo;
 import com.example.blog.repository.IautorRepository;
+import com.example.blog.repository.IposteoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,10 +14,12 @@ import java.util.Optional;
 @Service
 public class AutorService implements IautorService{
 	private final IautorRepository autorRepository;
+	private final IposteoRepository posteoRepository;
 	
 	@Autowired
-	public AutorService(IautorRepository autorRepository) {
+	public AutorService(IautorRepository autorRepository, IposteoRepository posteoRepository) {
 		this.autorRepository = autorRepository;
+		this.posteoRepository = posteoRepository;
 	}
 	
 	@Override
@@ -30,8 +34,7 @@ public class AutorService implements IautorService{
 	
 	@Override
 	public Autor guardarAutor(Autor autor) {
-		autorRepository.save(autor);
-		return autor;
+		return autorRepository.save(autor);
 	}
 	
 	@Override
@@ -56,13 +59,16 @@ public class AutorService implements IautorService{
 	}
 	
 	@Override
+	@Transactional
 	public Autor agregarPosteo(Long autorId, Posteo posteo) {
 		Autor autor = autorRepository.findById(autorId)
-				              .orElseThrow(() -> new RuntimeException("Autor no encoentrado"));
-
+				              .orElseThrow(() -> new RuntimeException("Autor no encontrado"));
+		
 		posteo.setAutorAsociado(autor);
-		autor.getPosteos().add(posteo);
-
-		return autorRepository.save(autor);
+		
+		posteoRepository.save(posteo);
+		
+		return autorRepository.findById(autorId)
+				       .orElseThrow(() -> new RuntimeException("Autor no encontrado"));
 	}
 }

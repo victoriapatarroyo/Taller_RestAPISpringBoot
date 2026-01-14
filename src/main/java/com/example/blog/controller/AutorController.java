@@ -6,10 +6,9 @@ import com.example.blog.service.IautorService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
-@RequestMapping("/autor")
+@RequestMapping("/autores")
 public class AutorController {
 	private final IautorService autorService;
 	

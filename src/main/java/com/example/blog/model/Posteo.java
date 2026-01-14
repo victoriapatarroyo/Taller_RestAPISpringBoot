@@ -1,6 +1,7 @@
 package com.example.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -13,23 +14,23 @@ public class Posteo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPosteo;
     private String titulo;
-    //private String autorPosteo;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="idAutor")
 	@JsonBackReference
 	private Autor autorAsociado;
 	
+	
 	@OneToMany(mappedBy = "posteoAsociado", cascade = CascadeType.ALL, orphanRemoval = true)
-	//@JsonBackReference
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Comentario> comentarios;
 
     public Posteo() {
     }
 
-    public Posteo(Long idPosteo, String titulo) {
-        this.idPosteo = idPosteo;
+    public Posteo(String titulo) {
+        //this.idPosteo = idPosteo;
         this.titulo = titulo;
     }
 

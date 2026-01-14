@@ -1,6 +1,8 @@
 package com.example.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public class Autor {
 	private String emailAutor;
 	
 	@OneToMany(mappedBy = "autorAsociado")
-	@JsonIgnore
+	@JsonManagedReference
 	private List<Posteo> posteos;
 	
 	public Autor() {
